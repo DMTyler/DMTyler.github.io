@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="Hexo Theme Redefine">
+    
+    <meta name="author" content="DM">
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="http://example.com/2024/11/03/moebius-1/"/>
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+        <meta name="description" content="What is Moebius-style?Moebius is one of the most important comic artists in history, known for his works that often feature a strong personal style. Moebius’s style is famous for the use of numerous l">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Implementing Moebius-style rendering in Unity URP Part.I">
+<meta property="og:url" content="http://example.com/2024/11/03/Moebius-1/index.html">
+<meta property="og:site_name" content="Project Archive">
+<meta property="og:description" content="What is Moebius-style?Moebius is one of the most important comic artists in history, known for his works that often feature a strong personal style. Moebius’s style is famous for the use of numerous l">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/2024/11/03/Moebius-1/Sobel.png">
+<meta property="og:image" content="http://example.com/2024/11/03/Moebius-1/Grey.png">
+<meta property="og:image" content="http://example.com/2024/11/03/Moebius-1/Gradient.png">
+<meta property="og:image" content="http://example.com/2024/11/03/Moebius-1/NormalDebugger.png">
+<meta property="og:image" content="http://example.com/2024/11/03/Moebius-1/DepthDebugger.png">
+<meta property="og:image" content="http://example.com/2024/11/03/Moebius-1/OutlineFinal.png">
+<meta property="og:image" content="http://example.com/2024/11/03/Moebius-1/NoiseFinal.png">
+<meta property="og:image" content="http://example.com/2024/11/03/Moebius-1/ShadowTex.png">
+<meta property="og:image" content="http://example.com/2024/11/03/Moebius-1/ShadowFinal.png">
+<meta property="og:image" content="http://example.com/2024/11/03/Moebius-1/HighlightFinal.png">
+<meta property="article:published_time" content="2024-11-02T16:30:18.000Z">
+<meta property="article:modified_time" content="2024-11-06T14:55:18.291Z">
+<meta property="article:author" content="DM">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2024/11/03/Moebius-1/Sobel.png">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/redefine-favicon.svg" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/redefine-favicon.svg">
+    <meta name="theme-color" content="#A31F34">
+    <link rel="shortcut icon" href="/images/redefine-favicon.svg">
+    <!--- Page Info-->
+    
+    <title>
+        
+            Implementing Moebius-style rendering in Unity URP Part.I | Project Archive
+        
+    </title>
+
+    
+<link rel="stylesheet" href="/fonts/Chillax/chillax.css">
+
+
+    <!--- Inject Part-->
+    
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+        
+<link rel="stylesheet" href="/assets/build/styles.css">
+
+    
+
+    
+<link rel="stylesheet" href="/fonts/GeistMono/geist-mono.css">
+
+    
+<link rel="stylesheet" href="/fonts/Geist/geist.css">
+
+    <!--- Font Part-->
+    
+    
+    
+    
+    
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"example.com","root":"/","language":"en"};
+    window.theme = {"articles":{"style":{"font_size":"16px","line_height":1.5,"image_border_radius":"14px","image_alignment":"center","image_caption":false,"link_icon":true,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.4rem","h3":"1.9rem","h4":"1.6rem","h5":"1.4rem","h6":"1.3rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":true,"auto":false,"list":[]},"code_block":{"copy":true,"style":"mac","highlight_theme":{"light":"github","dark":"vs2015"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"cc_by_nc_sa"},"lazyload":true,"recommendation":{"enable":false,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#A31F34","secondary":null,"default_mode":"light"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1000px","sidebar_width":"210px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":false,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":{"enable":false,"custom_message":null},"open_graph":true,"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"/images/wallhaven-wqery6-light.webp","dark":"/images/wallhaven-wqery6-dark.webp"},"title":"Project Archive","subtitle":{"text":[],"hitokoto":{"enable":false,"show_author":false,"api":"https://v1.hitokoto.cn"},"typing_speed":100,"backing_speed":80,"starting_delay":500,"backing_delay":1500,"loop":true,"smart_backspace":true},"text_color":{"light":"#fff","dark":"#d1d1b6"},"text_style":{"title_size":"2.8rem","subtitle_size":"1.5rem","line_height":1.2},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":false,"style":"default","links":{"github":null,"instagram":null,"zhihu":null,"twitter":null,"email":null},"qrs":{"weixin":null}}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":false,"type":"fixed","audios":[{"name":null,"artist":null,"url":null,"cover":null,"lrc":null}]},"mermaid":{"enable":false,"version":"9.3.0"}},"version":"2.7.3","navbar":{"auto_hide":false,"color":{"left":"#f78736","right":"#367df7","transparency":35},"width":{"home":"1200px","pages":"1000px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"}},"search":{"enable":false,"preload":true}},"page_templates":{"friends_column":2,"tags_style":"blur"},"home":{"sidebar":{"enable":false,"position":"right","first_item":"menu","announcement":null,"show_on_mobile":true,"links":null},"article_date_format":"auto","excerpt_length":200,"categories":{"enable":true,"limit":3},"tags":{"enable":true,"limit":3}},"footerStart":"2024/11/3 00:00:00"};
+    window.lang_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+<link rel="stylesheet" href="/fontawesome/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/brands.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/solid.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/regular.min.css">
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+<!--        <span class="swup-progress-icon">-->
+<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+<!--        </span>-->
+    
+</div>
+
+
+
+<main class="page-container" id="swup">
+
+    
+
+    <div class="main-content-container flex flex-col justify-between min-h-dvh">
+
+
+        <div class="main-content-header">
+            <header class="navbar-container px-6 md:px-12">
+    <div class="navbar-content transition-navbar ">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                Project Archive
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/"
+                                        >
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    HOME
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile sheet -->
+    <div class="navbar-drawer h-dvh w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/"
+                        >
+                            <span>
+                                HOME
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+
+            
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">0</div>
+        <div class="label text-third-text-color text-sm">Tags</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">0</div>
+        <div class="label text-third-text-color text-sm">Categories</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">3</div>
+        <div class="label text-third-text-color text-sm">Posts</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="main-content-body">
+
+            
+
+            <div class="main-content">
+
+                
+                    <div class="post-page-container flex relative justify-between box-border w-full h-full">
+    <div class="article-content-container">
+
+        <div class="article-title relative w-full">
+            
+                <div class="w-full flex items-center pt-6 justify-start">
+                    <h1 class="article-title-regular text-second-text-color tracking-tight text-4xl md:text-6xl font-semibold px-2 sm:px-6 md:px-8 py-3">Implementing Moebius-style rendering in Unity URP Part.I</h1>
+                </div>
+            
+            </div>
+
+        
+            <div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+                <div class="avatar w-[46px] h-[46px] flex-shrink-0 rounded-medium border border-border-color p-[1px]">
+                    <img src="/images/redefine-avatar.svg">
+                </div>
+                <div class="info flex flex-col justify-between">
+                    <div class="author flex items-center">
+                        <span class="name text-default-text-color text-lg font-semibold">DM</span>
+                        
+                            <span class="author-label ml-1.5 text-xs px-2 py-0.5 rounded-small text-third-text-color border border-shadow-color-1">Lv1</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2024-11-03 00:30:18</span>
+        <span class="mobile">2024-11-03 00:30:18</span>
+        <span class="hover-info">Created</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2024-11-06 22:55:18</span>
+            <span class="mobile">2024-11-06 22:55:18</span>
+            <span class="hover-info">Updated</span>
+        </span>
+    
+
+    
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        
+
+
+        <div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
+            <h2 id="What-is-Moebius-style"><a href="#What-is-Moebius-style" class="headerlink" title="What is Moebius-style?"></a>What is Moebius-style?</h2><p>Moebius is one of the most important comic artists in history, known for his works that often feature a strong personal style. Moebius’s style is famous for the use of numerous lines and simple colors. I will attempt to approximate this style in Unity in this Blog.</p>
+<h2 id="Outlines"><a href="#Outlines" class="headerlink" title="Outlines"></a>Outlines</h2><p>The first thing we need to handle is —- very important for almost every three-to-two rendering style (and even cartoon rendering) —- the outlines. In past projects, I preferred using Procedural Geometry Silhouetting based on smoothed normals (that is, expand model following the normal direction and cull the front face), as it allows for freely selecting which objects to outline. However, this time, we will use screen space outlining (as a post-processing)—-after all, outlines are everywhere in the Moebius style. In screen space, outlining color changes is quite simple. We just need to access the rendering texture of current frame and compute a special convolution called Sobel Edge Detection for each pixel, both along the u and v directions.<br><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/11/03/Moebius-1/Sobel.png"
+                      alt="Sobel" title="Sobel"
+                ><br>This formula shows the convolution part in edge detection and A here refers to the greyscales of the 9 surrounding pixels, which is:<br><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/11/03/Moebius-1/Grey.png"
+                      alt="GreyScale" title="Greyscale"
+                ><br>After this, we are now able to calculate the gradient G:<br><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/11/03/Moebius-1/Gradient.png"
+                      alt="Gradient" title="Greyscale"
+                ><br>And then, we can simply compare the gradient with a variable threshold to tell whether this pixel is a edge. (If you want to get a more vivid and detailed understanding of convolution, I recommend <a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=KuXjwB4LzSA"><em>this video</em></a> from @3brown1blue) However, not all edges with large color differences represent the edges between objects, and not all edges have a significant color difference. Therefore, we need to use “another type of color”.</p>
+<h3 id="Normal-and-Depth-Buffer-Texture"><a href="#Normal-and-Depth-Buffer-Texture" class="headerlink" title="Normal and Depth Buffer Texture"></a>Normal and Depth Buffer Texture</h3><p>It is not difficult to see that the areas with significant changes in normals or depth are the edges we need to outline. So we should use the normal directions and depth in screen space, rather than the color rendering results of the current frame, as the input for the algorithm. Thanks to Unity URP’s deferred rendering pipeline, we can easily obtain the normal buffer texture (along with depth buffer) for the current frame. But considering extensibility, we can also insert a custom render event to render the normal directions and depth in screen space for the current frame.<br>Fist of all. let’s create a blank render feature with only a blank pass inside:</p>
+<div class="highlight-container" data-rel="C#"><figure class="iseeu highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">OutlineInfoPassFeature</span> : <span class="title">ScriptableRendererFeature</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">class</span> <span class="title">OutlineInfoPass</span> : <span class="title">ScriptableRenderPass</span></span><br><span class="line">    &#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">void</span> <span class="title">Create</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">void</span> <span class="title">AddRenderPasses</span>(<span class="params">ScriptableRenderer renderer, <span class="keyword">ref</span> RenderingData renderingData</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+<p>Next, let’s create a shader and bind it to the objects in the scene. In the shader, we add a new pass that returns the normal direction as the color:</p>
+<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">Pass</span><br><span class="line">&#123;</span><br><span class="line">    Tags </span><br><span class="line">    &#123; </span><br><span class="line">        &quot;LightMode&quot; = &quot;NormalOnly&quot;</span><br><span class="line">        &quot;RenderType&quot; = &quot;Opaque&quot; </span><br><span class="line">    &#125;</span><br><span class="line">    ZWrite On</span><br><span class="line">    ZTest LEqual</span><br><span class="line">    ZClip On</span><br><span class="line">            </span><br><span class="line">    HLSLPROGRAM</span><br><span class="line"></span><br><span class="line">    #include &quot;Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl&quot;</span><br><span class="line">    #include &quot;Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl&quot;</span><br><span class="line">    #pragma vertex vert</span><br><span class="line">    #pragma fragment frag</span><br><span class="line"></span><br><span class="line">    struct vertIn</span><br><span class="line">    &#123;</span><br><span class="line">        float4 positionOS : POSITION;</span><br><span class="line">        float3 normal : NORMAL;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    struct vertOut</span><br><span class="line">    &#123;</span><br><span class="line">        float4 positionCS : SV_POSITION;</span><br><span class="line">        float3 normal : NORMAL;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    vertOut vert(vertIn input)</span><br><span class="line">    &#123;</span><br><span class="line">        vertOut output;</span><br><span class="line">        output.positionCS = TransformObjectToHClip(input.positionOS);</span><br><span class="line">        output.normal = PackNormalMaxComponent(input.normal);</span><br><span class="line">        return output;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    float4 frag(vertOut input) : SV_Target</span><br><span class="line">    &#123;</span><br><span class="line">        return float4(input.normal, 1);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ENDHLSL</span><br><span class="line">&#125;                   </span><br></pre></td></tr></table></figure></div>
+<p>Also, we need another pass to return depth. Normal and depth info can actually be returned using one pass through different channel of RGBA color.<br>However, since we will need to pass additional information through these passes in the future, combining everything into a single RGBA color would result in reduced precision. Therefore, we will still use two passes instead.</p>
+<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">Pass</span><br><span class="line">&#123;</span><br><span class="line">    Tags</span><br><span class="line">    &#123;</span><br><span class="line">        &quot;LightMode&quot; = &quot;OutlineInfo&quot;</span><br><span class="line">        &quot;RenderType&quot; = &quot;Opaque&quot; </span><br><span class="line">    &#125;</span><br><span class="line">    ZWrite On</span><br><span class="line">    ZTest LEqual</span><br><span class="line">    ZClip On</span><br><span class="line">            </span><br><span class="line">    HLSLPROGRAM</span><br><span class="line"></span><br><span class="line">    #include &quot;Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl&quot;</span><br><span class="line">    #include &quot;Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl&quot;</span><br><span class="line">    #pragma vertex vert</span><br><span class="line">    #pragma fragment frag</span><br><span class="line"></span><br><span class="line">    struct vertIn</span><br><span class="line">    &#123;</span><br><span class="line">        float4 positionOS : POSITION;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    struct vertOut</span><br><span class="line">    &#123;</span><br><span class="line">        float4 positionCS : SV_POSITION;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    vertOut vert(vertIn input)</span><br><span class="line">    &#123;</span><br><span class="line">        vertOut output;</span><br><span class="line">        output.positionCS = TransformObjectToHClip(input.positionOS);</span><br><span class="line">        return output;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    float4 frag(vertOut input) : SV_Target</span><br><span class="line">    &#123;</span><br><span class="line">        float depth = Linear01Depth(input.positionCS.z, _ZBufferParams);</span><br><span class="line">        return float4(depth, 0, 0, 1);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ENDHLSL</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+<p>Don’t forget to set the tag ‘Lightmode’ so that we can render this pass easily later! </p>
+<p>Then, let’s update the <code>OutlineInfoPass</code> ,using a command buffer to render these two passes for all objects in the scene to a render texture at a specific point in the pipeline.</p>
+<div class="highlight-container" data-rel="C#"><figure class="iseeu highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">void</span> <span class="title">Execute</span>(<span class="params">ScriptableRenderContext context, <span class="keyword">ref</span> RenderingData renderingData</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">var</span> camera = renderingData.cameraData.camera;</span><br><span class="line">    <span class="keyword">if</span> (!camera.TryGetCullingParameters(<span class="keyword">out</span> <span class="keyword">var</span> cullingParameters))</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">var</span> normalCmd = CommandBufferPool.Get(<span class="string">&quot;NormalOnlyPass&quot;</span>);</span><br><span class="line">    <span class="keyword">var</span> normalTarget = Shader.PropertyToID(<span class="string">&quot;NormalTarget&quot;</span>);</span><br><span class="line">            </span><br><span class="line">    normalCmd.GetTemporaryRT(normalTarget, camera.pixelWidth, camera.pixelHeight, <span class="number">16</span>, FilterMode.Bilinear, RenderTextureFormat.ARGBFloat);</span><br><span class="line">    normalCmd.SetRenderTarget(normalTarget);</span><br><span class="line">    normalCmd.ClearRenderTarget(<span class="literal">true</span>, <span class="literal">true</span>, Color.clear);</span><br><span class="line">    <span class="comment">// Set RT for further usage</span></span><br><span class="line">    normalCmd.SetGlobalTexture(<span class="string">&quot;_NormalOnly&quot;</span>, normalTarget); </span><br><span class="line">    context.ExecuteCommandBuffer(normalCmd);</span><br><span class="line">            </span><br><span class="line">    <span class="keyword">var</span> cullingResult = context.Cull(<span class="keyword">ref</span> cullingParameters);</span><br><span class="line">    <span class="comment">// Draw only the normal buffer shader pass</span></span><br><span class="line">    <span class="keyword">var</span> drawSettings = CreateDrawingSettings(<span class="keyword">new</span> ShaderTagId(<span class="string">&quot;NormalOnly&quot;</span>), <span class="keyword">ref</span> renderingData, SortingCriteria.CommonOpaque);</span><br><span class="line">    <span class="keyword">var</span> filterSettings = <span class="keyword">new</span> FilteringSettings(RenderQueueRange.opaque);</span><br><span class="line">    context.DrawRenderers(cullingResult, <span class="keyword">ref</span> drawSettings, <span class="keyword">ref</span> filterSettings);</span><br><span class="line">            </span><br><span class="line">    <span class="keyword">var</span> infoCmd = CommandBufferPool.Get(<span class="string">&quot;OutlineInfoPass&quot;</span>);</span><br><span class="line">    <span class="keyword">var</span> depthTarget = Shader.PropertyToID(<span class="string">&quot;DepthTarget&quot;</span>);</span><br><span class="line">            </span><br><span class="line">    infoCmd.GetTemporaryRT(depthTarget, camera.pixelWidth, camera.pixelHeight, <span class="number">16</span>, FilterMode.Bilinear, RenderTextureFormat.ARGBFloat);</span><br><span class="line">    infoCmd.SetRenderTarget(depthTarget);</span><br><span class="line">    infoCmd.ClearRenderTarget(<span class="literal">true</span>, <span class="literal">true</span>, Color.clear);</span><br><span class="line">    <span class="comment">// Set RT for further usage</span></span><br><span class="line">    infoCmd.SetGlobalTexture(<span class="string">&quot;_OutlineInfo&quot;</span>, depthTarget);</span><br><span class="line">    context.ExecuteCommandBuffer(infoCmd);</span><br><span class="line">            </span><br><span class="line">    <span class="comment">// Draw only the depth &amp; attenuation buffer shader pass</span></span><br><span class="line">    drawSettings = CreateDrawingSettings(<span class="keyword">new</span> ShaderTagId(<span class="string">&quot;OutlineInfo&quot;</span>), <span class="keyword">ref</span> renderingData, SortingCriteria.CommonOpaque);</span><br><span class="line">    context.DrawRenderers(cullingResult, <span class="keyword">ref</span> drawSettings, <span class="keyword">ref</span> filterSettings);</span><br><span class="line">            </span><br><span class="line">    normalCmd.Clear();</span><br><span class="line">    infoCmd.Clear();</span><br><span class="line">            </span><br><span class="line">    CommandBufferPool.Release(normalCmd);</span><br><span class="line">    CommandBufferPool.Release(infoCmd);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+<p>After this, we create an instance of <code>OutlineInfoPass</code> in the <code>OutlineInfoFeature</code> and add it to the render queue.</p>
+<div class="highlight-container" data-rel="C#"><figure class="iseeu highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">OutlineInfoPassFeature</span> : <span class="title">ScriptableRendererFeature</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">private</span> ScriptableRenderPass _normalOnlyPass;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">class</span> <span class="title">OutlineInfoPass</span> : <span class="title">ScriptableRenderPass</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">void</span> <span class="title">Execute</span>(<span class="params">ScriptableRenderContext context, <span class="keyword">ref</span> RenderingData renderingData</span>)</span></span><br><span class="line">        &#123;</span><br><span class="line">            ... <span class="comment">// The above code</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">void</span> <span class="title">Create</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        _normalOnlyPass = <span class="keyword">new</span> OutlineInfoPass();</span><br><span class="line">        _normalOnlyPass.renderPassEvent = RenderPassEvent.BeforeRenderingOpaques;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">void</span> <span class="title">AddRenderPasses</span>(<span class="params">ScriptableRenderer renderer, <span class="keyword">ref</span> RenderingData renderingData</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (_normalOnlyPass <span class="keyword">is</span> <span class="literal">null</span>)</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        renderer.EnqueuePass(_normalOnlyPass);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+<p>Note that this feature should be rendered before our real outline feature since the RenderTexture need to be passed to outline feature. So I set <code>renderPassEvent</code> to <code>RenderPassEvent.BeforeRenderingOpaques</code>. You may change this setting to suit your project’s need, as long as it is before outlining. </p>
+<p>After adding ‘OutlineInfoPass’ to renderer features in your renderer data and binding material to some of your objects in scene, we can now open frame debugger to see whether these commandbuffers works.<br><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/11/03/Moebius-1/NormalDebugger.png"
+                      alt="NormalDebugger" title="NormalDebugger"
+                ><br><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/11/03/Moebius-1/DepthDebugger.png"
+                      alt="DepthDebugger" title="DepthDebugger"
+                ><br>Great! Everything works perfectly! (During debugging, I multiplied the depth value by 100, that is, <code>return float4(100 * depth, 0, 0, 1)</code> to make the debug results more noticeable, if your depth texture seems to be purely black, it is probably because the value of depth is too small to see.) </p>
+<h3 id="Outlining-using-Normals-and-Depth"><a href="#Outlining-using-Normals-and-Depth" class="headerlink" title="Outlining using Normals and Depth"></a>Outlining using Normals and Depth</h3><p>At this point, we have completed the setup for the outline. We can finally begin to create the render feature for the outline. In this pass, we need to fetch three textures: the two textures we have passed earlier, and current frame’s rendering target(which is used to retrieve the original color at a given UV). We will use the shader to perform the necessary calculations and then blit the results back to the screen.</p>
+<div class="highlight-container" data-rel="C#"><figure class="iseeu highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">OutlinePassFeature</span> : <span class="title">ScriptableRendererFeature</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">private</span> OutlinePass _edgeDetectPass;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">class</span> <span class="title">OutlinePass</span> : <span class="title">ScriptableRenderPass</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">readonly</span> Material _material = <span class="keyword">new</span>(Shader.Find(<span class="string">&quot;Hidden/MoebiusPP&quot;</span>));</span><br><span class="line">        <span class="keyword">private</span> RTHandle _source;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">readonly</span> <span class="built_in">int</span> _target = Shader.PropertyToID(<span class="string">&quot;_EdgeOutline&quot;</span>);</span><br><span class="line">        </span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">void</span> <span class="title">OnCameraSetup</span>(<span class="params">CommandBuffer cmd, <span class="keyword">ref</span> RenderingData renderingData</span>)</span></span><br><span class="line">        &#123;</span><br><span class="line">            _source = renderingData.cameraData.renderer.cameraColorTargetHandle;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">void</span> <span class="title">Execute</span>(<span class="params">ScriptableRenderContext context, <span class="keyword">ref</span> RenderingData renderingData</span>)</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">var</span> cmd = CommandBufferPool.Get(<span class="string">&quot;Edge Outline&quot;</span>);</span><br><span class="line">            cmd.SetGlobalTexture(<span class="string">&quot;_MainTex&quot;</span>, _source);</span><br><span class="line">            cmd.GetTemporaryRT(_target, width, height, <span class="number">0</span>, FilterMode.Bilinear, RenderTextureFormat.ARGBFloat);</span><br><span class="line">            cmd.Blit(_source, _target);</span><br><span class="line">            cmd.Blit(_target, _source, _material);</span><br><span class="line">            cmd.ReleaseTemporaryRT(_target);</span><br><span class="line">            context.ExecuteCommandBuffer(cmd);</span><br><span class="line">            CommandBufferPool.Release(cmd);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">void</span> <span class="title">Create</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        _edgeDetectPass = <span class="keyword">new</span> OutlinePass();</span><br><span class="line">        _edgeDetectPass.renderPassEvent = RenderPassEvent.BeforeRenderingPostProcessing;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">void</span> <span class="title">AddRenderPasses</span>(<span class="params">ScriptableRenderer renderer, <span class="keyword">ref</span> RenderingData renderingData</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        renderer.EnqueuePass(_edgeDetectPass);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+<p>I set <code>renderPassEvent</code> to <code>BeforeRenderingPostProcessing</code> here because I want other postprocessings can be applied on outline.</p>
+<p>Next, let’s complete the shader “Hidden&#x2F;MoebiusPP”, which is contains the crucial calculation of outline: the Sobel Edge Detection as we mentioned above. </p>
+<p>Firstly, Let’s sample the 8 pixels surrounding the current point in the fragment shader using the UV coordinates, and then pass this information to the vertex shader.</p>
+<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">struct vertIn</span><br><span class="line">&#123;</span><br><span class="line">    float4 positionOS : POSITION;</span><br><span class="line">    float2 uv : TEXCOORD0;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">struct vertOut</span><br><span class="line">&#123;</span><br><span class="line">    float4 positionCS : SV_POSITION;</span><br><span class="line">    float2 uvs[9] : TEXCOORD1;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">vertOut vert(vertIn input)</span><br><span class="line">&#123;</span><br><span class="line">    vertOut output;</span><br><span class="line">    output.positionCS = TransformObjectToHClip(input.positionOS);</span><br><span class="line">    float2 uv = input.uv;</span><br><span class="line">            </span><br><span class="line">    float uStep = 1.0 / _Width;</span><br><span class="line">    float vStep = 1.0 / _Height;</span><br><span class="line">            </span><br><span class="line">    output.uvs[0] = uv + float2(-uStep, -vStep) * _SampleScale; // Top left</span><br><span class="line">    output.uvs[1] = uv + float2(0, -vStep) * _SampleScale; // Top</span><br><span class="line">    output.uvs[2] = uv + float2(uStep, -vStep) * _SampleScale; // Top right</span><br><span class="line">    output.uvs[3] = uv + float2(-uStep, 0) * _SampleScale; // Left</span><br><span class="line">    output.uvs[4] = uv; // Center                        </span><br><span class="line">    output.uvs[5] = uv + float2(uStep, 0) * _SampleScale; // Right</span><br><span class="line">    output.uvs[6] = uv + float2(-uStep, vStep) * _SampleScale; // Bottom left</span><br><span class="line">    output.uvs[7] = uv + float2(0, vStep) * _SampleScale; // Bottom</span><br><span class="line">    output.uvs[8] = uv + float2(uStep, vStep) * _SampleScale; // Bottom right</span><br><span class="line"></span><br><span class="line">    return output;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+<p>In this step, we use several variables:<br>    &gt;<code>_Width</code>: Represent the width of current screen.<br>    &gt;<code>_Height</code>: Represent the height of current screen.<br>    &gt;<code>_SampleScale</code>: Represent the distance between two sample points. This variable can control the width of outlines.</p>
+<p>Then in vertex shader, we can calculate the gradients of normal and depth and sum them together. If the sum is larger than a threshold, we say it is a edge and return vertex color, otherwise we return the original color of this uv.</p>
+<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"> float greyScale(float3 color)</span><br><span class="line">&#123;</span><br><span class="line">    return 0.2126 * color.r + 0.7152 * color.g + 0.0722 * color.b;</span><br><span class="line">&#125;</span><br><span class="line">        </span><br><span class="line">float4 frag(vertOut input) : SV_Target</span><br><span class="line">&#123;</span><br><span class="line">    float color[9];</span><br><span class="line">    for (int i = 0; i &lt; 9; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        color[i] = greyScale(SAMPLE_TEXTURE2D(_NormalOnly, sampler_NormalOnly, input.uvs[i]));</span><br><span class="line">    &#125;</span><br><span class="line">    const float sobelX[9] = &#123;</span><br><span class="line">        -1, 0, 1,</span><br><span class="line">        -2, 0, 2,</span><br><span class="line">        -1, 0, 1</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    const float sobelY[9] = &#123;</span><br><span class="line">        -1, -2, -1,</span><br><span class="line">        0, 0, 0,</span><br><span class="line">        1, 2, 1</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    float Gx = 0;</span><br><span class="line">    float Gy = 0;</span><br><span class="line"></span><br><span class="line">    if (abs(color[1] - color[7]) &gt; _NormalThreshold || abs(color[3] - color[5]) &gt; _NormalThreshold)</span><br><span class="line">    &#123;</span><br><span class="line">        for (int i = 0; i &lt; 9; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            Gx += color[i] * sobelX[i];</span><br><span class="line">            Gy += color[i] * sobelY[i];</span><br><span class="line">        &#125;</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">    float depth[9];</span><br><span class="line">    for (int i = 0; i &lt; 9; i ++)</span><br><span class="line">    &#123;</span><br><span class="line">        depth[i] = SAMPLE_TEXTURE2D(_OutlineInfo, sampler_OutlineInfo, input.uvs[i]).r;</span><br><span class="line">    &#125;</span><br><span class="line">            </span><br><span class="line">    if (abs(depth[1] - depth[7]) &gt; _DepthThreshold || abs(depth[3] - depth[5]) &gt; _DepthThreshold)</span><br><span class="line">    &#123;</span><br><span class="line">        for (int i = 0; i &lt; 9; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            Gx += greyScale(float3(depth[i], depth[i], depth[i])) * sobelX[i];</span><br><span class="line">            Gy += greyScale(float3(depth[i], depth[i], depth[i])) * sobelY[i];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    if (sqrt(Gx * Gx + Gy * Gy) &gt; _EdgeThreshold)</span><br><span class="line">    &#123;</span><br><span class="line">        return _EdgeColor;</span><br><span class="line">    &#125;</span><br><span class="line">    else</span><br><span class="line">    &#123;</span><br><span class="line">        return SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, input.uvs[4]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+<p>In this step, we use several variables:<br>    &gt;<code>_NormalThreshold</code>: Only when normal’s gradient is larger than this threshold will it contribute to gradient.<br>    &gt;<code>_DepthThreshold</code>: Only when depth’s gradient is larger than this threshold will it contribute to gradient.<br>    &gt;<code>_EdgeThreshold</code>: If the gradient is larger than this number, it need to be outlined.<br>    &gt;<code>_EdgeColor</code>: The color of the edge.</p>
+<p>We will pass these parameters in the <code>Execute</code> function of the <code>OutlinePass</code>. But first, let’s create a simple volume to manage these parameters, making it easier to adjust them in the Inspector.</p>
+<div class="highlight-container" data-rel="C#"><figure class="iseeu highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">OutlineVolume</span> : <span class="title">VolumeComponent</span>, <span class="title">IPostProcessComponent</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> ColorParameter EdgeColor = <span class="keyword">new</span>(Color.black);</span><br><span class="line">    <span class="keyword">public</span> FloatParameter EdgeThreshold = <span class="keyword">new</span>(<span class="number">0.1f</span>);</span><br><span class="line">    <span class="keyword">public</span> FloatParameter DepthThreshold = <span class="keyword">new</span>(<span class="number">0.1f</span>);</span><br><span class="line">    <span class="keyword">public</span> FloatParameter NormalThreshold = <span class="keyword">new</span>(<span class="number">0.1f</span>);</span><br><span class="line">        </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="built_in">bool</span> <span class="title">IsActive</span>()</span> =&gt; <span class="literal">true</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="built_in">bool</span> <span class="title">IsTileCompatible</span>()</span> =&gt; <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+<p>Now we can easily change the value of variables in shader:</p>
+<div class="highlight-container" data-rel="C#"><figure class="iseeu highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">readonly</span> <span class="built_in">int</span> EdgeColor = Shader.PropertyToID(<span class="string">&quot;_EdgeColor&quot;</span>);</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">readonly</span> <span class="built_in">int</span> EdgeThreshold = Shader.PropertyToID(<span class="string">&quot;_EdgeThreshold&quot;</span>);</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">readonly</span> <span class="built_in">int</span> DepthThreshold = Shader.PropertyToID(<span class="string">&quot;_DepthThreshold&quot;</span>);</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">readonly</span> <span class="built_in">int</span> NormalThreshold = Shader.PropertyToID(<span class="string">&quot;_NormalThreshold&quot;</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">void</span> <span class="title">Execute</span>(<span class="params">ScriptableRenderContext context, <span class="keyword">ref</span> RenderingData renderingData</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (renderingData.cameraData.cameraType != CameraType.Game)</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">            </span><br><span class="line">    <span class="keyword">if</span> (_source <span class="keyword">is</span> <span class="literal">null</span> || _material <span class="keyword">is</span> <span class="literal">null</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        Debug.LogWarning(<span class="string">&quot;OutlinePass: Missing source or material&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">var</span> volume = VolumeManager.instance.stack.GetComponent&lt;OutlineVolume&gt;();</span><br><span class="line">    <span class="keyword">if</span> (volume <span class="keyword">is</span> <span class="literal">null</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        Debug.LogWarning(<span class="string">&quot;OutlinePass: Missing volume&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    _material.SetColor(EdgeColor, volume.EdgeColor.<span class="keyword">value</span>);</span><br><span class="line">    _material.SetFloat(EdgeThreshold, volume.EdgeThreshold.<span class="keyword">value</span>);</span><br><span class="line">    _material.SetFloat(DepthThreshold, volume.DepthThreshold.<span class="keyword">value</span> / <span class="number">100.0f</span>); <span class="comment">// The depth values are often very small, so dividing by 100 ensures better precision when adjusting them</span></span><br><span class="line">    _material.SetFloat(NormalThreshold, volume.NormalThreshold.<span class="keyword">value</span>);</span><br><span class="line">            </span><br><span class="line">    <span class="keyword">var</span> camera = renderingData.cameraData.camera;</span><br><span class="line">    <span class="keyword">var</span> width = camera.pixelWidth;</span><br><span class="line">    <span class="keyword">var</span> height = camera.pixelHeight;</span><br><span class="line">            </span><br><span class="line">    _material.SetInt(Width, width);</span><br><span class="line">    _material.SetInt(Height, height);</span><br><span class="line">            </span><br><span class="line">    ... <span class="comment">// Set the command buffer</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+<p>With that, we’ve completed most of the logic for the outline effect. Let’s add a simple one color pass to the gameObject shader and see the outline effect in action!</p>
+<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">HLSLPROGRAM</span><br><span class="line"></span><br><span class="line">#pragma shader_feature_local_fragment _EMISSION</span><br><span class="line">#pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN</span><br><span class="line">#pragma multi_compile _ _ADDITIONAL_LIGHTS_VERTEX _ADDITIONAL_LIGHTS</span><br><span class="line">#pragma multi_compile_fragment _ _ADDITIONAL_LIGHT_SHADOWS</span><br><span class="line">#define _ADDITIONAL_LIGHT_CALCULATE_SHADOWS</span><br><span class="line">            // Soft Shadows</span><br><span class="line">#pragma multi_compile_fragment _ _SHADOWS_SOFT</span><br><span class="line"></span><br><span class="line">#include &quot;Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl&quot;</span><br><span class="line">#include &quot;Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl&quot;</span><br><span class="line">#pragma vertex vert</span><br><span class="line">#pragma fragment frag</span><br><span class="line"></span><br><span class="line">float4 _Color;</span><br><span class="line"></span><br><span class="line">TEXTURE2D(_ShadowTex);</span><br><span class="line">SAMPLER(sampler_ShadowTex);</span><br><span class="line"></span><br><span class="line">struct vertIn</span><br><span class="line">&#123;</span><br><span class="line">    float4 positionOS : POSITION;</span><br><span class="line">    float3 normal : NORMAL;</span><br><span class="line">    float2 uv : TEXCOORD0;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">struct vertOut</span><br><span class="line">&#123;</span><br><span class="line">    float4 positionCS : SV_POSITION;</span><br><span class="line">    float3 normal : NORMAL;</span><br><span class="line">    float2 uv : TEXCOORD0;</span><br><span class="line">    float4 shadowCoord : TEXCOORD1;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">vertOut vert(vertIn input)</span><br><span class="line">&#123;</span><br><span class="line">    vertOut output;</span><br><span class="line">    float3 worldPos = TransformObjectToWorld(input.positionOS);</span><br><span class="line">    output.positionCS = TransformObjectToHClip(input.positionOS);</span><br><span class="line">    output.normal = TransformObjectToWorldNormal(input.normal);</span><br><span class="line">    output.uv = input.uv;</span><br><span class="line">    output.shadowCoord = TransformWorldToShadowCoord(worldPos);</span><br><span class="line">    return output;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">float4 frag(vertOut input) : SV_Target</span><br><span class="line">&#123;</span><br><span class="line">    return _Color;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure></div>
+<p>Don’t forget to add the feature to your pipeline data and set the materials for your objects. The final result with a gradient color skybox looks like:<br> <img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/11/03/Moebius-1/OutlineFinal.png"
+                      alt="OutlineFinal" title="OutlineFinal"
+                ><br>Well done! It already looks quite close to Moebius style!</p>
+<h3 id="Noise"><a href="#Noise" class="headerlink" title="Noise"></a>Noise</h3><p>So far, our lines are able to accurately depict the edges of objects, perhaps too accurately — they look more like computer-generated edges than hand-drawn ones. A simple solution is to apply a slight noise the UV coordinates before sampling, giving the lines a subtle wobble, making them appear more hand-drawn.</p>
+<p>This is not difficult to implement. We just need to add a noise texture parameter in the post-processing shader, and then apply the perturbation to the UVs before sampling the normal and depth textures:</p>
+<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">TEXTURE2D(_NoiseMap);</span><br><span class="line">SAMPLER(sampler_NoiseMap);</span><br><span class="line">float _NoiseStrength;</span><br><span class="line">float _NoiseScale;</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">float4 frag(vertOut input) : SV_Target</span><br><span class="line">&#123;</span><br><span class="line">    float color[9];</span><br><span class="line">    for (int i = 0; i &lt; 9; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        float2 distortion = SAMPLE_TEXTURE2D(_NoiseMap, sampler_NoiseMap, input.uvs[i] / _NoiseScale).rg * 2 - 1;</span><br><span class="line">        distortion *= _NoiseStrength;</span><br><span class="line">        color[i] = greyScale(SAMPLE_TEXTURE2D(_NormalOnly, sampler_NormalOnly, input.uvs[i] + distortion));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line">    float depth[9];</span><br><span class="line">    for (int i = 0; i &lt; 9; i ++)</span><br><span class="line">    &#123;</span><br><span class="line">        float2 distortion = SAMPLE_TEXTURE2D(_NoiseMap, sampler_NoiseMap, input.uvs[i] / _NoiseScale).rg * 2 - 1;</span><br><span class="line">        distortion *= _NoiseStrength;</span><br><span class="line">        depth[i] = SAMPLE_TEXTURE2D(_OutlineInfo, sampler_OutlineInfo, input.uvs[i] + distortion).r;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+<p>Two variables are used to control the result of noise: <code>_NoiseScale</code> and <code>_NoiseStrength</code>. With the texture together, we can create a parameter for them in volumn and set them through render pass. Since code here is repeated work, I don’t think  it’s necessary to put them here. Let skip it and check the final result:<br> <img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/11/03/Moebius-1/NoiseFinal.png"
+                      alt="NoiseFinal" title="NoiseFinal"
+                ><br>Now better.</p>
+<h2 id="Shadows"><a href="#Shadows" class="headerlink" title="Shadows"></a>Shadows</h2><p>In the Moebius style, shadows are often represented through lines as well: thin and dense grid-like lines. Thanks to <a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=jlKNOirh66E"><em>the video</em></a> from @UselessGameDev, we can implement similar kind of shadow with a neat and beautiful way. But first, we need to prepare a shadow texture like this:<br> <img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/11/03/Moebius-1/ShadowTex.png"
+                      alt="ShadowTex" title="ShadowTex"
+                ><br> As you can see, this texture provides three different directions of lines with R, G and B channel, which actually provides us three different textures in same time. (You can create a texture like this simply with Photoshop.) We simply need to gradually render lines on the object based on light attenuation, transitioning from no lines being rendered at all to rendering all three channels of lines. There are two ways to achieve this effect: rendering shadows on the object itself or rendering shadows in screen space. Both have their pros and cons:</p>
+<blockquote>
+<ol>
+<li>The first approach, rendering shadows on the object, allows the shadow lines to change direction according to the surface orientation of the object. However, this can lead to strange seams between objects, and the line density may vary across different objects.</li>
+</ol>
+</blockquote>
+<blockquote>
+<ol start="2">
+<li>The second approach, rendering shadows in screen space, ensures that the shadow lines have consistent density across the screen, and handling seams is easier. However, all shadow lines will have the same direction across all objects.</li>
+</ol>
+</blockquote>
+<p>For this case, I have chosen the second approach — rendering shadows in screen space, which requires me to pass the light attenuation to the post-processing shader. Luckily, it is fairly easy since we’ve already passed depth information to post-processing shader using R channge of <code>OutlineInfo</code> pass. All what we need to do now is calculating the light attenuation and set it as the G channel.</p>
+<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">#pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN</span><br><span class="line">#pragma multi_compile _ _ADDITIONAL_LIGHTS_VERTEX _ADDITIONAL_LIGHTS</span><br><span class="line">#pragma multi_compile_fragment _ _ADDITIONAL_LIGHT_SHADOWS</span><br><span class="line">#define _ADDITIONAL_LIGHT_CALCULATE_SHADOWS</span><br><span class="line">#pragma multi_compile_fragment _ _LIGHT_LAYERS</span><br><span class="line">#pragma multi_compile_fragment _ _LIGHT_COOKIES</span><br><span class="line">// Soft Shadows</span><br><span class="line">#pragma multi_compile_fragment _ _SHADOWS_SOFT</span><br><span class="line">// Shadowmask</span><br><span class="line">#pragma multi_compile _ SHADOWS_SHADOWMASK</span><br><span class="line">#pragma multi_compile _ DIRLIGHTMAP_COMBINED</span><br><span class="line">...</span><br><span class="line"> struct vertIn</span><br><span class="line">&#123;</span><br><span class="line">    float4 positionOS : POSITION;</span><br><span class="line">    float3 normal : NORMAL;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">struct vertOut</span><br><span class="line">&#123;</span><br><span class="line">    float4 positionCS : SV_POSITION;</span><br><span class="line">    float3 positionWS : TEXCOORD0;</span><br><span class="line">    float4 shadowCoord : TEXCOORD1;</span><br><span class="line">    float3 normal : TEXCOORD2;</span><br><span class="line">&#125;;</span><br><span class="line">...</span><br><span class="line">float4 frag(vertOut input) : SV_Target</span><br><span class="line">&#123;</span><br><span class="line">    Light mainLight = GetMainLight(input.shadowCoord);</span><br><span class="line">    float NdotL = dot(mainLight.direction, input.normal) * 0.5 + 0.5;</span><br><span class="line">    float attenuation = mainLight.distanceAttenuation * mainLight.shadowAttenuation * NdotL;</span><br><span class="line">    float luminance = 1 - attenuation; // Clear color is black, so 0 is completely bright</span><br><span class="line">    NdotL = dot(mainLight.direction, input.normal);</span><br><span class="line">    attenuation = mainLight.distanceAttenuation * mainLight.shadowAttenuation * NdotL;</span><br><span class="line">    float highlight = (attenuation &gt; _HighlightThreshold? 0.1 : 0);</span><br><span class="line">    float depth = Linear01Depth(input.positionCS.z, _ZBufferParams);</span><br><span class="line">    return float4(depth, luminance, 0, 1); // Clear color is black, so x=0: far and y=0 : completely bright</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+<p>And now we can use attenuation easily in post-processing shader! Here, my approach is that if 1 - attenuation is below the threshold, only the R channel lines are rendered. If the luminance is below 1&#x2F;3 of the threshold, both the R and G channel lines are rendered. In my shadow texture there is no line on B channel, but you can create you own texture to gain different visual effect.</p>
+<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">TEXTURE2D(_ShadowTex);</span><br><span class="line">SAMPLER(sampler_ShadowTex);</span><br><span class="line">float _ShadowScale;</span><br><span class="line">float _ShadowStrength;</span><br><span class="line">float4 frag(vertOut input) : SV_Target</span><br><span class="line">&#123;</span><br><span class="line">    ...</span><br><span class="line">    // Here, since the screen is not square, we need to remap the uv</span><br><span class="line">    float2 uv = float2(input.uvs[4].x * _Width / _ShadowResolution, input.uvs[4].y * _Height / _ShadowResolution);</span><br><span class="line">    float4 shadowSample = SAMPLE_TEXTURE2D(_ShadowTex, sampler_ShadowTex, uv * _ShadowScale);</span><br><span class="line">    float attenuation = SAMPLE_TEXTURE2D(_OutlineInfo, sampler_OutlineInfo, input.uvs[4]).g;</span><br><span class="line">    float r = shadowSample.r * (attenuation &gt; 0.5 ? 1 : 0);</span><br><span class="line">    float g = shadowSample.g * (attenuation &gt; 0.83 ? 1 : 0);</span><br><span class="line">    float b = 0;</span><br><span class="line">    float maxShadow = _ShadowStrength * max(max(r,g),b);</span><br><span class="line">                </span><br><span class="line">    if (sqrt(Gx * Gx + Gy * Gy) &gt; _EdgeThreshold)</span><br><span class="line">    &#123;</span><br><span class="line">        return _EdgeColor;</span><br><span class="line">    &#125;</span><br><span class="line">    else</span><br><span class="line">    &#123;</span><br><span class="line">        return SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, input.uvs[4]) * float4(1 - maxShadow, 1 - maxShadow, 1 - maxShadow, 1);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<p>Here, I have set the threshold to a constant value of 0.5, but it can also be adjusted using a variable. There are two variables using in this part:<br>    &gt;  <code>_ShadowStrength</code>: Used to adjust the shadow color (the higher the value, the darker the shadow).<br>    &gt; <code>_ShadowScale</code>: Used to control the interval between shadow lines.<br>These values need to be controlled via the volume and passed through the render pass with <code>_ShadowTex</code> and <code>_ShadowResolution</code> together, but I won’t elaborate again on this part further. You can change <code>_ShadowTex</code> to gain different style of shadows. Now let’s embrace the physically correct (almost) line shadow:<br><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/11/03/Moebius-1/ShadowFinal.png"
+                      alt="ShadowFinal" title="ShadowFinal"
+                ><br>Hmm, not bad, isn’t it?</p>
+<h2 id="Highlight"><a href="#Highlight" class="headerlink" title="Highlight"></a>Highlight</h2><p>In the Moebius style, conveying the sense of volume of an object is not only achieved through shadows, but also through another very important element — highlights. Highlights are often achieved by using a bright color block combined with edge outlining. Let’s first create the bright color block.</p>
+<p>The implementation of the bright color block is quite simple: similar to the concept of cartoon-style cel shading, we just need to replace areas with brightness greater than a certain threshold with another color:</p>
+<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line">Properties</span><br><span class="line">&#123;</span><br><span class="line">        ...</span><br><span class="line">        _HighlightThreshold (&quot;Hightlight Threshold&quot;, Float) = 0.98</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">Pass</span><br><span class="line">&#123;</span><br><span class="line">    HLSLPROGRAM</span><br><span class="line"></span><br><span class="line">    #pragma shader_feature_local_fragment _EMISSION</span><br><span class="line">    #pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN</span><br><span class="line">    #pragma multi_compile _ _ADDITIONAL_LIGHTS_VERTEX _ADDITIONAL_LIGHTS</span><br><span class="line">    #pragma multi_compile_fragment _ _ADDITIONAL_LIGHT_SHADOWS</span><br><span class="line">    #define _ADDITIONAL_LIGHT_CALCULATE_SHADOWS</span><br><span class="line">    // Soft Shadows</span><br><span class="line">    #pragma multi_compile_fragment _ _SHADOWS_SOFT</span><br><span class="line"></span><br><span class="line">    #include &quot;Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl&quot;</span><br><span class="line">    #include &quot;Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl&quot;</span><br><span class="line">    #pragma vertex vert</span><br><span class="line">    #pragma fragment frag</span><br><span class="line"></span><br><span class="line">    float4 _Color;</span><br><span class="line">    float4 _HighlightColor;</span><br><span class="line">    float _HighlightThreshold;</span><br><span class="line"></span><br><span class="line">    struct vertIn</span><br><span class="line">    &#123;</span><br><span class="line">        float4 positionOS : POSITION;</span><br><span class="line">        float3 normal : NORMAL;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    struct vertOut</span><br><span class="line">    &#123;</span><br><span class="line">        float4 positionCS : SV_POSITION;</span><br><span class="line">        float3 normal : NORMAL;</span><br><span class="line">        float4 shadowCoord : TEXCOORD1;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    vertOut vert(vertIn input)</span><br><span class="line">    &#123;</span><br><span class="line">        vertOut output;</span><br><span class="line">        float3 worldPos = TransformObjectToWorld(input.positionOS);</span><br><span class="line">        output.positionCS = TransformObjectToHClip(input.positionOS);</span><br><span class="line">        output.normal = TransformObjectToWorldNormal(input.normal);</span><br><span class="line">        output.shadowCoord = TransformWorldToShadowCoord(worldPos);</span><br><span class="line">        return output;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    float4 frag(vertOut input) : SV_Target</span><br><span class="line">    &#123;</span><br><span class="line">        Light mainLight = GetMainLight(input.shadowCoord);</span><br><span class="line">        float NdotL = dot(mainLight.direction, input.normal);</span><br><span class="line">        float attenuation = mainLight.distanceAttenuation * mainLight.shadowAttenuation * saturate(NdotL);</span><br><span class="line">        if (attenuation &gt; _HighlightThreshold)</span><br><span class="line">        &#123;</span><br><span class="line">            return _HighlightColor;</span><br><span class="line">        &#125;</span><br><span class="line">        return _Color;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ENDHLSL</span><br><span class="line">            </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+<p>Then, let’s return to the <code>OutlineInfo</code> pass and use the B channel to store the highlight information. Areas that require highlights should have a value of 1, while areas that don’t need highlights should be set to 0. This will help us use the highlight information to calculate the gradient during the convolution process.</p>
+<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">Pass</span><br><span class="line">&#123;</span><br><span class="line">    Tags</span><br><span class="line">    &#123;</span><br><span class="line">        &quot;LightMode&quot; = &quot;OutlineInfo&quot;</span><br><span class="line">        &quot;RenderType&quot; = &quot;Opaque&quot; </span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line">    float _HighlightThreshold;</span><br><span class="line"></span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line">    float4 frag(vertOut input) : SV_Target</span><br><span class="line">    &#123;</span><br><span class="line">        ...</span><br><span class="line">        float highlight = (attenuation &gt; _HighlightThreshold? 0.1 : 0);</span><br><span class="line">        return float4(depth, luminance, highlight, 1);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">ENDHLSL</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+<p>Finally, we are able to calculate Sobel Edge Detection to outline the edge of highlight:</p>
+<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">float4 frag(vertOut input)</span><br><span class="line">&#123;</span><br><span class="line">    ...</span><br><span class="line">    float highLight[9];</span><br><span class="line">    for (int i = 0; i &lt; 9; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        float2 distortion = SAMPLE_TEXTURE2D(_NoiseMap, sampler_NoiseMap, input.uvs[i] / _NoiseScale).rg * 2 - 1;</span><br><span class="line">        distortion *= _DistortionStrength;</span><br><span class="line">        highLight[i] = SAMPLE_TEXTURE2D(_OutlineInfo, sampler_OutlineInfo, input.uvs[i] + distortion).b;</span><br><span class="line">    &#125;</span><br><span class="line">                </span><br><span class="line">    for (int i = 0; i &lt; 9; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        Gx += highLight[i] * sobelX[i];</span><br><span class="line">        Gy += highLight[i] * sobelY[i];</span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure></div>
+<p>Now, let’s see the final result:<br><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/11/03/Moebius-1/HighlightFinal.png"
+                      alt="HighlightFinal" title="HighlightFinal"
+                ><br>The render result is already quite close to what I want, although it still lacks many details. The Moebius style often features delicate details, and in Part II, I will attempt to recreate these details and also, try to make the final render feel more vintage.</p>
+
+        </div>
+
+        
+            <div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+                <div class="article-copyright-info-container">
+    <ul>
+        <li><strong>Title:</strong> Implementing Moebius-style rendering in Unity URP Part.I</li>
+        <li><strong>Author:</strong> DM</li>
+        <li><strong>Created at
+                :</strong> 2024-11-03 00:30:18</li>
+        
+            <li>
+                <strong>Updated at
+                    :</strong> 2024-11-06 22:55:18
+            </li>
+        
+        <li>
+            <strong>Link:</strong> http://example.com/2024/11/03/Moebius-1/
+        </li>
+        <li>
+            <strong>
+                License:
+            </strong>
+            
+
+            
+                This work is licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0">CC BY-NC-SA 4.0</a>.
+            
+        </li>
+    </ul>
+</div>
+
+            </div>
+        
+
+        
+
+        
+
+        
+            <div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+                
+                    <div class="article-prev border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+                        <a class="prev"
+                        rel="prev"
+                        href="/2024/11/09/ZipJpg/"
+                        >
+                            <span class="left arrow-icon flex justify-center items-center">
+                                <i class="fa-solid fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex justify-center items-center">
+                                <span class="post-nav-title-item">A super simple method to hide compressed files (7Z formats) inside an image (JPG format)</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+                        <a class="next"
+                        rel="next"
+                        href="/2000/02/29/hello-world/"
+                        >
+                            <span class="title flex justify-center items-center">
+                                <span class="post-nav-title-item">Hello World</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex justify-center items-center">
+                                <i class="fa-solid fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+
+        
+            <div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+                <div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        Comments
+    </div>
+    
+
+        
+            
+    <div id="waline"></div>
+    <script type="module" data-swup-reload-script>
+      import { init } from '/js/libs/waline.mjs';
+
+      function loadWaline() {
+        init({
+          el: '#waline',
+          serverURL: 'https://example.example.com',
+          lang: 'zh-CN',
+          dark: 'body[class~="dark-mode"]',
+          reaction: false,
+          requiredMeta: ['nick', 'mail'],
+          emoji: [],
+          
+          
+        });
+      }
+
+      if (typeof swup !== 'undefined') {
+        loadWaline();
+      } else {
+        window.addEventListener('DOMContentLoaded', loadWaline);
+      }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+
+    
+        <div class="toc-content-container">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <div class="toc-title">On this page</div>
+        <div class="page-title">Implementing Moebius-style rendering in Unity URP Part.I</div>
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#What-is-Moebius-style"><span class="nav-text">What is Moebius-style?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Outlines"><span class="nav-text">Outlines</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Normal-and-Depth-Buffer-Texture"><span class="nav-text">Normal and Depth Buffer Texture</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Outlining-using-Normals-and-Depth"><span class="nav-text">Outlining using Normals and Depth</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Noise"><span class="nav-text">Noise</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Shadows"><span class="nav-text">Shadows</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Highlight"><span class="nav-text">Highlight</span></a></li></ol>
+
+    </div>
+</div>
+        </div>
+    
+</div>
+
+
+
+                
+
+            </div>
+
+            
+
+        </div>
+
+        <div class="main-content-footer">
+            <footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+        <div class="text-center">
+            &copy;
+            
+              <span>2024</span>
+              -
+            
+            2024&nbsp;&nbsp;<i class="fa-solid fa-heart fa-beat" style="--fa-animation-duration: 0.5s; color: #f54545"></i>&nbsp;&nbsp;<a href="/">DM</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        3 posts in total
+                    </span>
+                    
+                </p>
+            
+        </div>
+        
+            <script data-swup-reload-script src="https://cn.vercount.one/js"></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">VISITOR COUNT</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">TOTAL PAGE VIEWS</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">POWERED BY <?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a></span>
+            <span class="text-sm lg:block">THEME&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.7.3</a></span>
+        </div>
+        
+        
+            <div>
+                Blog up for <span class="odometer" id="runtime_days" ></span> days <span class="odometer" id="runtime_hours"></span> hrs <span class="odometer" id="runtime_minutes"></span> Min <span class="odometer" id="runtime_seconds"></span> Sec
+            </div>
+        
+        
+            <script data-swup-reload-script>
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+        
+    </div>  
+</footer>
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="article-tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="right-bottom-tools page-aside-toggle">
+                <i class="fa-regular fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fa-regular fa-comments"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-side-tools-container">
+        <div class="side-tools-container">
+    <ul class="hidden-tools-list">
+        <li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+            <i class="fa-regular fa-magnifying-glass-plus"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+            <i class="fa-regular fa-magnifying-glass-minus"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+            <i class="fa-regular fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+
+        <li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+            <i class="fa-regular fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="visible-tools-list">
+        <li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+            <i class="fa-regular fa-cog fa-spin"></i>
+        </li>
+        
+            <li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+                <i class="arrow-up fas fa-arrow-up"></i>
+                <span class="percent"></span>
+            </li>
+        
+        
+    </ul>
+</div>
+
+    </div>
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+    
+<script src="/js/libs/Swup.min.js"></script>
+
+<script src="/js/libs/SwupSlideTheme.min.js"></script>
+
+<script src="/js/libs/SwupScriptsPlugin.min.js"></script>
+
+<script src="/js/libs/SwupProgressPlugin.min.js"></script>
+
+<script src="/js/libs/SwupScrollPlugin.min.js"></script>
+
+<script src="/js/libs/SwupPreloadPlugin.min.js"></script>
+
+<script>
+    const swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+</script>
+
+
+
+
+
+
+
+<script src="/js/tools/imageViewer.js" type="module"></script>
+
+<script src="/js/utils.js" type="module"></script>
+
+<script src="/js/main.js" type="module"></script>
+
+<script src="/js/layouts/navbarShrink.js" type="module"></script>
+
+<script src="/js/tools/scrollTopBottom.js" type="module"></script>
+
+<script src="/js/tools/lightDarkSwitch.js" type="module"></script>
+
+<script src="/js/layouts/categoryList.js" type="module"></script>
+
+
+
+
+
+    
+<script src="/js/tools/codeBlock.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/layouts/lazyload.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/tools/runtime.js"></script>
+
+    
+<script src="/js/libs/odometer.min.js"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css">
+
+
+
+
+  
+<script src="/js/libs/Typed.min.js"></script>
+
+  
+<script src="/js/plugins/typed.js" type="module"></script>
+
+
+
+
+
+
+
+
+    
+<script src="/js/libs/anime.min.js"></script>
+
+
+
+
+
+    
+<script src="/js/tools/tocToggle.js" type="module" data-swup-reload-script=""></script>
+
+<script src="/js/layouts/toc.js" type="module" data-swup-reload-script=""></script>
+
+<script src="/js/plugins/tabs.js" type="module" data-swup-reload-script=""></script>
+
+
+
+
+<script src="/js/libs/moment-with-locales.min.js" data-swup-reload-script=""></script>
+
+
+<script src="/js/layouts/essays.js" type="module" data-swup-reload-script=""></script>
+
+
+
+
+</body>
+</html>
